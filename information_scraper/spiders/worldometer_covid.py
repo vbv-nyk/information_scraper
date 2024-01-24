@@ -41,13 +41,13 @@ class WorldometerCovidSpider(scrapy.Spider):
             id = 1
             country_name_to_id = {country['name']: country['id'] for country in self.countries}
             country_id = country_name_to_id.get(country_name)
-
-            yield {
-                "country_id": country_id,
-                "country_name": country_name,
-                "date": date,
-                "total_cases": total_cases,
-                "active_cases": active_cases,
-                "deaths": deaths
-            }
-            id += 1
+            if country_id:
+                yield {
+                    "country_id": country_id,
+                    "country_name": country_name,
+                    "date_recorded": date,
+                    "total_cases": total_cases,
+                    "active_cases": active_cases,
+                    "deaths": deaths.strip()
+                }
+                id += 1

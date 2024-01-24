@@ -1,5 +1,4 @@
 import scrapy
-
 # Country(country_id, name, continent, code)
 
 class StatisticstimesSpider(scrapy.Spider):

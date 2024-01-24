@@ -30,13 +30,15 @@ class WorldometerSpider(scrapy.Spider):
         country_id = country_name_to_id.get(response.meta['name'])
 
         for rows in response.xpath("/html/body/div[2]/div[3]/div/div/div[5]/table/tbody").css("tr"):
-            yield {
-                "population_id": id,
-                "year": rows.css("tr td::text")[0].get(),
-                "country_id": country_id,
-                "population": rows.css("td strong::text").get(),
-                "population_density": rows.css("td::text")[7].get()
-            }
-            id += 1
+            if country_id:
+                yield {
+                    "population_id": id,
+                    "year": rows.css("tr td::text")[0].get(),
+                    "country_id": country_id,
+                    "country_name": response.meta['name'],
+                    "population": rows.css("td strong::text").get(),
+                    "population_density": rows.css("td::text")[7].get()
+                }
+                id += 1
 
 
