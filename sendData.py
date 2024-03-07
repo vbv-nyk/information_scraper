@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 # Specify the URL of your backend API
 backend_url = "http://localhost:3000"
@@ -54,6 +55,7 @@ for item in inflationData:
     country_id = item['country_id']
     if country_id not in combinedData:
         combinedData[country_id] = {}
+    combinedData[country_id]['country_id'] = country_id
     combinedData[country_id]['country_name'] = item['country_name']
     combinedData[country_id]['unemployment_rate'] = '00'
     combinedData[country_id]['inflation_rate'] = float(item['inflat_rate'])
@@ -83,19 +85,21 @@ healthData = json.dumps(healthExpData)
 ecData = json.dumps(combinedData)
 populationData = json.dumps(populationData)
 
-print(populationData)
-# Send a POST request to the Node.js server
 response = requests.post(backend_url + '/insertCountries', data=countriesData, headers=headers)
 print(response)
+time.sleep(5)
 response = requests.post(backend_url + '/insertEC', data=ecData, headers=headers)
 print(response)
+time.sleep(5)
 response = requests.post(backend_url + '/insertCovid', data=covidData, headers=headers)
 print(response)
+time.sleep(5)
 response = requests.post(backend_url + '/insertPopulation', data=populationData, headers=headers)
 print(response)
+time.sleep(5)
 response = requests.post(backend_url + '/insertGDP', data=gdpData, headers=headers)
 print(response)
-
+time.sleep(5)
 response = requests.post(backend_url + '/insertHC', data=healthData, headers=headers)
 print(response)
 
